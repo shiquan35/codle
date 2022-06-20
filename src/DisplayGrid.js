@@ -27,6 +27,8 @@ export const DisplayGrid = () => {
   const [actualNumbersArr, setActualNumbersArr] = useState(numArr);
   const [actualNumbersObj, setActualNumbersObj] = useState(numObj);
 
+  
+
   console.log(actualNumbersArr);
   console.log(actualNumbersObj);
 
@@ -41,15 +43,24 @@ export const DisplayGrid = () => {
   const [guess2, setGuess2] = useState([]);
   const [guess3, setGuess3] = useState([]);
 
+
+
+  const[guess1Colour, setGuess1Colour] = useState(["", "", "", "", "", "", "", ""]);
+  const[guess2Colour, setGuess2Colour] = useState(["", "", "", "", "", "", "", ""]);
+  const[guess3Colour, setGuess3Colour] = useState(["", "", "", "", "", "", "", ""]);
+
   const handleInput1 = (event) => {
+    // allow player to input only 1 integer
     setInput1(event.target.value.slice(0, limit));
   }
 
   const handleInput2 = (event) => {
+    // allow player to input only 1 integer
     setInput2(event.target.value.slice(0, limit));
   }
 
   const handleInput3 = (event) => {
+    // allow player to input only 1 integer
     setInput3(event.target.value.slice(0, limit));
   }
 
@@ -88,163 +99,187 @@ export const DisplayGrid = () => {
     <>
     <div>
       {actualNumbersArr}
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit}> 
         <input type="number" min="0" max="9" 
+        style={{backgroundColor: guess1Colour[0]}}
         value={attemptNum===0 ? input1 : guess1[0]} 
         onChange={handleInput1} 
         disabled={attemptNum===0 ? false : true}/>
 
         <input type="number" min="0" max="9" 
+        style={{backgroundColor: guess2Colour[0]}}
         value={attemptNum===0 ? input2 : guess2[0]} 
         onChange={handleInput2}
         disabled={attemptNum===0 ? false : true}/>
 
         <input type="number" min="0" max="9" 
+        style={{backgroundColor: guess3Colour[0]}}
         value={attemptNum===0 ? input3 : guess3[0]} 
         onChange={handleInput3}
         disabled={attemptNum===0 ? false : true}/>
+        <div className='space'><input type="Submit" className="submit-button"></input></div>
         
-        <input type="Submit" className="submit-button"></input>
       </form>
     </div>
     <div>
       <form onSubmit={handleSubmit}>
         <input type="number" min="0" max="9" 
+        style={{backgroundColor: guess1Colour[1]}}
         value={attemptNum===1 ? input1 : guess1[1]} 
         onChange={handleInput1} 
         disabled={attemptNum===1 ? false : true}/>
 
         <input type="number" min="0" max="9" 
+        style={{backgroundColor: guess2Colour[1]}}
         value={attemptNum===1 ? input2 : guess2[1]} 
         onChange={handleInput2}
         disabled={attemptNum===1 ? false : true}/>
 
         <input type="number" min="0" max="9" 
+        style={{backgroundColor: guess3Colour[1]}}
         value={attemptNum===1 ? input3 : guess3[1]} 
         onChange={handleInput3}
         disabled={attemptNum===1 ? false : true}/>
 
-        <input type="Submit" className="submit-button"></input>
+        <div className='space'><input type="Submit" className="submit-button"></input></div>
       </form>
     </div>
     <div>
       <form onSubmit={handleSubmit}>
         <input type="number" min="0" max="9" 
+        style={{backgroundColor: guess1Colour[2]}}
         value={attemptNum===2 ? input1 : guess1[2]} 
         onChange={handleInput1} 
         disabled={attemptNum===2 ? false : true}/>
 
         <input type="number" min="0" max="9" 
+        style={{backgroundColor: guess2Colour[2]}}
         value={attemptNum===2 ? input2 : guess2[2]} 
         onChange={handleInput2}
         disabled={attemptNum===2 ? false : true}/>
 
         <input type="number" min="0" max="9" 
+        style={{backgroundColor: guess3Colour[2]}}
         value={attemptNum===2 ? input3 : guess3[2]} 
         onChange={handleInput3}
         disabled={attemptNum===2 ? false : true}/>
 
-        <input type="Submit" className="submit-button"></input>
+        <div className='space'><input type="Submit" className="submit-button"></input></div>
       </form>
     </div>
     <div>
       <form onSubmit={handleSubmit}>
         <input type="number" min="0" max="9" 
+        style={{backgroundColor: guess1Colour[3]}}
         value={attemptNum===3 ? input1 : guess1[3]} 
         onChange={handleInput1} 
         disabled={attemptNum===3 ? false : true}/>
 
         <input type="number" min="0" max="9" 
+        style={{backgroundColor: guess2Colour[3]}}
         value={attemptNum===3 ? input2 : guess2[3]} 
         onChange={handleInput2}
         disabled={attemptNum===3 ? false : true}/>
 
         <input type="number" min="0" max="9" 
+        style={{backgroundColor: guess3Colour[3]}}
         value={attemptNum===3 ? input3 : guess3[3]} 
         onChange={handleInput3}
         disabled={attemptNum===3 ? false : true}/>
         
-        <input type="Submit" className="submit-button"></input>
+        <div className='space'><input type="Submit" className="submit-button"></input></div>
       </form>
     </div>
     <div>
       <form onSubmit={handleSubmit}>
         <input type="number" min="0" max="9" 
+        style={{backgroundColor: guess1Colour[4]}}
         value={attemptNum===4 ? input1 : guess1[4]} 
         onChange={handleInput1} 
         disabled={attemptNum===4 ? false : true}/>
 
         <input type="number" min="0" max="9" 
+        style={{backgroundColor: guess2Colour[4]}}
         value={attemptNum===4 ? input2 : guess2[4]} 
         onChange={handleInput2}
         disabled={attemptNum===4 ? false : true}/>
 
         <input type="number" min="0" max="9" 
+        style={{backgroundColor: guess3Colour[4]}}
         value={attemptNum===4 ? input3 : guess3[4]} 
         onChange={handleInput3}
         disabled={attemptNum===4 ? false : true}/>
         
-        <input type="Submit" className="submit-button"></input>
+        <div className='space'><input type="Submit" className="submit-button"></input></div>
       </form>
     </div>
     <div>
       <form onSubmit={handleSubmit}>
         <input type="number" min="0" max="9" 
+        style={{backgroundColor: guess1Colour[5]}}
         value={attemptNum===5 ? input1 : guess1[5]} 
         onChange={handleInput1} 
         disabled={attemptNum===5 ? false : true}/>
 
         <input type="number" min="0" max="9" 
+        style={{backgroundColor: guess2Colour[5]}}
         value={attemptNum===5 ? input2 : guess2[5]} 
         onChange={handleInput2}
         disabled={attemptNum===5 ? false : true}/>
 
         <input type="number" min="0" max="9" 
+        style={{backgroundColor: guess3Colour[5]}}
         value={attemptNum===5 ? input3 : guess3[5]} 
         onChange={handleInput3}
         disabled={attemptNum===5 ? false : true}/>
         
-        <input type="Submit" className="submit-button"></input>
+        <div className='space'><input type="Submit" className="submit-button"></input></div>
       </form>
     </div>
     <div>
       <form onSubmit={handleSubmit}>
         <input type="number" min="0" max="9" 
+        style={{backgroundColor: guess1Colour[6]}}
         value={attemptNum===6 ? input1 : guess1[6]} 
         onChange={handleInput1} 
         disabled={attemptNum===6 ? false : true}/>
 
         <input type="number" min="0" max="9" 
+        style={{backgroundColor: guess2Colour[6]}}
         value={attemptNum===6 ? input2 : guess2[6]} 
         onChange={handleInput2}
         disabled={attemptNum===6 ? false : true}/>
 
         <input type="number" min="0" max="9" 
+        style={{backgroundColor: guess3Colour[6]}}
         value={attemptNum===6 ? input3 : guess3[6]} 
         onChange={handleInput3}
         disabled={attemptNum===6 ? false : true}/>
         
-        <input type="Submit" className="submit-button"></input>
+        <div className='space'><input type="Submit" className="submit-button"></input></div>
       </form>
     </div>
     <div>
       <form onSubmit={handleSubmit}>
         <input type="number" min="0" max="9" 
+        style={{backgroundColor: guess1Colour[7]}}
         value={attemptNum===7 ? input1 : guess1[7]} 
         onChange={handleInput1} 
         disabled={attemptNum===7 ? false : true}/>
 
         <input type="number" min="0" max="9" 
+        style={{backgroundColor: guess2Colour[7]}}
         value={attemptNum===7 ? input2 : guess2[7]} 
         onChange={handleInput2}
         disabled={attemptNum===7 ? false : true}/>
 
         <input type="number" min="0" max="9" 
+        style={{backgroundColor: guess3Colour[7]}}
         value={attemptNum===7 ? input3 : guess3[7]} 
         onChange={handleInput3}
         disabled={attemptNum===7 ? false : true}/>
         
-        <input type="Submit" className="submit-button"></input>
+        <div className='space'><input type="Submit" className="submit-button"></input></div>
       </form>
     </div>
    
