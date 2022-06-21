@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useEffect } from 'react'
 import './DisplayGrid.css';
 import {generateNumbersArr} from "./generateNumbers.js";
 
@@ -29,8 +29,8 @@ export const DisplayGrid = () => {
 
   
 
-  console.log(actualNumbersArr);
-  console.log(actualNumbersObj);
+  // console.log(actualNumbersArr);
+  // console.log(actualNumbersObj);
 
   const [attemptNum, setAttemptNum] = useState(0);
 
@@ -43,32 +43,124 @@ export const DisplayGrid = () => {
   const [guess2, setGuess2] = useState([]);
   const [guess3, setGuess3] = useState([]);
 
+  const[guess1Colour, setGuess1Colour] = useState([]);
+  const[guess2Colour, setGuess2Colour] = useState([]);
+  const[guess3Colour, setGuess3Colour] = useState([]);
+
+  // numberOfCorrect = [true, true, true] to win
+  const [numberOfCorrect, setNumberOfCorrect] = useState({
+    1: false,
+    2: false,
+    3: false
+  });
 
 
-  const[guess1Colour, setGuess1Colour] = useState(["", "", "", "", "", "", "", ""]);
-  const[guess2Colour, setGuess2Colour] = useState(["", "", "", "", "", "", "", ""]);
-  const[guess3Colour, setGuess3Colour] = useState(["", "", "", "", "", "", "", ""]);
+  // effect hook for changing colours
+  // using setState in useEffect causes an infinite loop
+  useEffect(() => {
+    document.addEventListener("submit", validateGuess);
+    return () => {
+      document.removeEventListener("submit", validateGuess);
+    }
+  });
+
+  const validateGuess = () => {
+    // if (input1==="" || input2==="" || input3==="") {
+    //   return;
+    // }
+    // guess1
+    if (guess1[attemptNum-1] === actualNumbersArr[0]) {
+      setGuess1Colour((prev) => {
+        return [...prev, "green"];
+      });
+      setNumberOfCorrect((prev) => ({
+        ...prev,
+        1: true
+      }));
+    }
+    else if (actualNumbersObj[guess1[attemptNum-1]]) {
+      setGuess1Colour((prev) => {
+        return [...prev, "rgb(170, 170, 10)"];
+      })
+      actualNumbersObj[guess1[attemptNum-1]] -= 1;
+    }
+    else {
+      setGuess1Colour((prev) => {
+        return [...prev, "rgb(75,75,75)"];
+      })
+    }
+
+    // guess2
+    if (guess2[attemptNum-1] === actualNumbersArr[1]) {
+      setGuess2Colour((prev) => {
+        return [...prev, "green"];
+      });
+      setNumberOfCorrect((prev) => ({
+        ...prev,
+        2: true
+      }));
+    }
+    else if (actualNumbersObj[guess2[attemptNum-1]]) {
+      setGuess2Colour((prev) => {
+        return [...prev, "rgb(170, 170, 10)"];
+      })
+      actualNumbersObj[guess2[attemptNum-1]] -= 1;
+    }
+    else {
+      setGuess2Colour((prev) => {
+        return [...prev, "rgb(75,75,75)"];
+      })
+    }
+
+    // guess3
+    if (guess3[attemptNum-1] === actualNumbersArr[2]) {
+      setGuess3Colour((prev) => {
+        return [...prev, "green"];
+      });
+      setNumberOfCorrect((prev) => ({
+        ...prev,
+        3: true
+      }));
+    }
+    else if (actualNumbersObj[guess3[attemptNum-1]]) {
+      setGuess3Colour((prev) => {
+        return [...prev, "rgb(170, 170, 10)"];
+      })
+      actualNumbersObj[guess3[attemptNum-1]] -= 1;
+    }
+    else {
+      setGuess3Colour((prev) => {
+        return [...prev, "rgb(75,75,75)"];
+      })
+    }
+
+    // revert changes made to objs if no WIN - numberOfCorrect and actualNumbersObj
+    
+
+  } // end of validateGuess
 
   const handleInput1 = (event) => {
     // allow player to input only 1 integer
-    setInput1(event.target.value.slice(0, limit));
+    setInput1(Number(event.target.value.slice(0, limit)));
   }
 
   const handleInput2 = (event) => {
     // allow player to input only 1 integer
-    setInput2(event.target.value.slice(0, limit));
+    setInput2(Number(event.target.value.slice(0, limit)));
   }
 
   const handleInput3 = (event) => {
     // allow player to input only 1 integer
-    setInput3(event.target.value.slice(0, limit));
+    setInput3(Number(event.target.value.slice(0, limit)));
   }
 
   const handleSubmit = (event) => {
+    // console.log('submit');
+    // console.log(attemptNum);
     event.preventDefault();
 
     // check for empty boxes
-    if (!input1 || !input2 || !input3) {
+    if (input1==="" || input2==="" || input3==="") {
       return;
     }
 
@@ -92,13 +184,25 @@ export const DisplayGrid = () => {
     setInput1("");
     setInput2("");
     setInput3("");
+  } // end of handleSubmit
+
+  // validate win condition
+  const checkWin = () => {
+    if (numberOfCorrect[1] === true && numberOfCorrect[2] === true && numberOfCorrect[3] === true) {
+      return (
+      <>
+      <h1>YOU WIN</h1>
+      <h1>The number is: {actualNumbersArr}</h1>
+      </>
+      )
+    }
   }
 
-  console.log("attemptNum: ", attemptNum);
   return (
     <>
     <div>
-      {actualNumbersArr}
+      {/* {actualNumbersArr} */}
+      {checkWin()}
       <form onSubmit={handleSubmit}> 
         <input type="number" min="0" max="9" 
         style={{backgroundColor: guess1Colour[0]}}
@@ -281,6 +385,7 @@ export const DisplayGrid = () => {
         
         <div className='space'><input type="Submit" className="submit-button"></input></div>
       </form>
+      
     </div>
    
     </>
