@@ -47,7 +47,10 @@ export const DisplayGrid = () => {
   const[guess2Colour, setGuess2Colour] = useState([]);
   const[guess3Colour, setGuess3Colour] = useState([]);
 
-  // numberOfCorrect = [true, true, true] to win
+  // check for empty inputs
+  const[checkInput, setCheckInput] = useState(null);
+
+  // numberOfCorrect = {1: true, 2: true, 3: true} to win
   const [numberOfCorrect, setNumberOfCorrect] = useState({
     1: false,
     2: false,
@@ -94,12 +97,12 @@ export const DisplayGrid = () => {
   
 
   const validateGuess = () => {
-    console.log('validate Guess');
-    // if (input1==="" || input2==="" || input3==="") {
-    //   return;
-    // }
+    if (checkInput === false) {
+      return;
+    }
     // guess1
     if (guess1[attemptNum-1] === actualNumbersArr[0]) {
+      console.log("correct")
       setGuess1Colour((prev) => {
         return [...prev, "green"];
       });
@@ -185,12 +188,11 @@ export const DisplayGrid = () => {
   }
 
   const handleSubmit = (event) => {
-    console.log('submit');
-    // console.log(attemptNum);
     event.preventDefault();
-
     // check for empty boxes
-    if (input1==="" || input2==="" || input3==="") {
+    if (typeof(input1) === 'string' || typeof(input2) === 'string' || typeof(input3) === 'string') {
+      console.log("checked");
+      setCheckInput(false);
       return;
     }
 
@@ -214,19 +216,36 @@ export const DisplayGrid = () => {
     setInput1("");
     setInput2("");
     setInput3("");
+    setCheckInput(true);
   } // end of handleSubmit
 
   // validate win condition
   const checkWin = () => {
-    if (numberOfCorrect[1] === true && numberOfCorrect[2] === true && numberOfCorrect[3] === true) {
+    // validate lose - attemptNum >= 8
+    if (attemptNum >= 8) {
       return (
-      <>
-      <h1>YOU WIN</h1>
-      <h1>The number is: {actualNumbersArr}</h1>
-      <button onClick={resetGame}>RESET</button>
-      {/* <button id="reset">RESET</button> */}
-      </>
+        <>
+        <div className='message'>
+        <h3>YOU LOSE</h3>
+        <h3>The number is: {actualNumbersArr}</h3>
+        <button onClick={resetGame}>RESET</button>
+        </div>
+        </>
       )
+    }
+
+    // validate win
+    if (numberOfCorrect[1] === true && numberOfCorrect[2] === true && numberOfCorrect[3] === true) {
+      console.log("win valid");
+      return (
+        <>
+        <div className='message'>
+        <h3>YOU WIN</h3>
+        <h3>The number is: {actualNumbersArr}</h3>
+        <button onClick={resetGame}>RESET</button>
+        </div>
+        </>
+    )
     }
   }
 
