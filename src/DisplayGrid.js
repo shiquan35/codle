@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import './DisplayGrid.css';
 import {generateNumbersArr} from "./generateNumbers.js";
+import {EndGame} from "./EndGame.js"
+
 
 let numArr = generateNumbersArr();
-
+let actualNum = `${numArr[0]}${numArr[1]}${numArr[2]}` 
 const generateNumbersObj = (array) => {
   // add number into numberObj
   let numberObj = {};
@@ -47,6 +49,19 @@ export const DisplayGrid = () => {
   const[guess2Colour, setGuess2Colour] = useState([]);
   const[guess3Colour, setGuess3Colour] = useState([]);
 
+  const[keypadColour, setKeypadColour] = useState({
+    1: "white",
+    2: "white",
+    3: "white",
+    4: "white",
+    5: "white",
+    6: "white",
+    7: "white",
+    8: "white",
+    9: "white",
+    0: "white"
+  });
+
   // check for empty inputs
   const[checkInput, setCheckInput] = useState(null);
 
@@ -56,7 +71,10 @@ export const DisplayGrid = () => {
     2: false,
     3: false
   });
-
+  
+  // set state to show endgame message
+  const [isWin, setIsWin] = useState(null);
+  const [showEndGame, setShowEndGame] = useState(false);
 
   // effect hook for changing colours
   // using setState in useEffect causes an infinite loop
@@ -66,15 +84,6 @@ export const DisplayGrid = () => {
       document.removeEventListener("submit", validateGuess);
     }
   });
-
-  // const reset = document.getElementById("reset");
-  // useEffect(() => {
-  //   const reset = document.getElementById("reset");
-  //   reset.addEventListener("click", resetGame);
-  //   return () => {
-  //     reset.removeEventListener("click", resetGame);
-  //   }
-  // });
 
   useEffect(() => {
     if (numberOfCorrect[1] === false || numberOfCorrect[2] === false || numberOfCorrect[3] === false) {
@@ -87,22 +96,28 @@ export const DisplayGrid = () => {
     }
   }, [numberOfCorrect[1], numberOfCorrect[2], numberOfCorrect[3]]);
 
-  
+  useEffect(() => {
+    if (numberOfCorrect[1] === true && numberOfCorrect[2] === true && numberOfCorrect[3] === true) {
+      setAttemptNum(8);
+      setIsWin(true);
+      // setShowEndGame(true);
+      setTimeout(() => setShowEndGame(true), 1500);
+    }
 
-  // reset actualNumbersObj doesn't work
-  // useEffect(() => {
-  //   console.log(numObj);
-  //   setActualNumbersObj(numObj);
-  // }, [actualNumbersObj]);
-  
+    if (attemptNum >= 7 && (numberOfCorrect[1] === false || numberOfCorrect[2] === false || numberOfCorrect[3] === false)) {
+      setIsWin(false);
+      setTimeout(() => setShowEndGame(true), 1500);
+    }
+  }
+  ,[attemptNum,numberOfCorrect[1], numberOfCorrect[2], numberOfCorrect[3]])
 
   const validateGuess = () => {
     if (checkInput === false) {
       return;
     }
     // guess1
-    if (guess1[attemptNum-1] === actualNumbersArr[0]) {
-      console.log("correct")
+    const temp1 = guess1[attemptNum-1];
+    if (temp1 === actualNumbersArr[0]) {
       setGuess1Colour((prev) => {
         return [...prev, "green"];
       });
@@ -110,21 +125,33 @@ export const DisplayGrid = () => {
         ...prev,
         1: true
       }));
+      setKeypadColour((prev) => ({
+        ...prev,
+        [temp1]: "green"
+      }));
     }
-    else if (actualNumbersObj[guess1[attemptNum-1]]) {
+    else if (actualNumbersObj[temp1]) {
       setGuess1Colour((prev) => {
         return [...prev, "rgb(170, 170, 10)"];
       })
-      // actualNumbersObj[guess1[attemptNum-1]] -= 1;
+      setKeypadColour((prev) => ({
+        ...prev,
+        [temp1]: "rgb(170, 170, 10)"
+      }));
     }
     else {
       setGuess1Colour((prev) => {
         return [...prev, "rgb(75,75,75)"];
       })
+      setKeypadColour((prev) => ({
+        ...prev,
+        [temp1]: "rgb(75,75,75)"
+      }));
     }
 
     // guess2
-    if (guess2[attemptNum-1] === actualNumbersArr[1]) {
+    const temp2 = guess2[attemptNum-1];
+    if (temp2 === actualNumbersArr[1]) {
       setGuess2Colour((prev) => {
         return [...prev, "green"];
       });
@@ -132,21 +159,33 @@ export const DisplayGrid = () => {
         ...prev,
         2: true
       }));
+      setKeypadColour((prev) => ({
+        ...prev,
+        [temp2]: "green"
+      }));
     }
-    else if (actualNumbersObj[guess2[attemptNum-1]]) {
+    else if (actualNumbersObj[temp2]) {
       setGuess2Colour((prev) => {
         return [...prev, "rgb(170, 170, 10)"];
       })
-      // actualNumbersObj[guess2[attemptNum-1]] -= 1;
+      setKeypadColour((prev) => ({
+        ...prev,
+        [temp2]: "rgb(170, 170, 10)"
+      }));
     }
     else {
       setGuess2Colour((prev) => {
         return [...prev, "rgb(75,75,75)"];
       })
+      setKeypadColour((prev) => ({
+        ...prev,
+        [temp2]: "rgb(75,75,75)"
+      }));
     }
 
     // guess3
-    if (guess3[attemptNum-1] === actualNumbersArr[2]) {
+    const temp3 = guess3[attemptNum-1];
+    if (temp3 === actualNumbersArr[2]) {
       setGuess3Colour((prev) => {
         return [...prev, "green"];
       });
@@ -154,24 +193,31 @@ export const DisplayGrid = () => {
         ...prev,
         3: true
       }));
+      setKeypadColour((prev) => ({
+        ...prev,
+        [temp3]: "green"
+      }));
     }
-    else if (actualNumbersObj[guess3[attemptNum-1]]) {
+    else if (actualNumbersObj[temp3]) {
       setGuess3Colour((prev) => {
         return [...prev, "rgb(170, 170, 10)"];
       })
-      // actualNumbersObj[guess3[attemptNum-1]] -= 1;
+      setKeypadColour((prev) => ({
+        ...prev,
+        [temp3]: "rgb(170, 170, 10)"
+      }));
     }
     else {
       setGuess3Colour((prev) => {
         return [...prev, "rgb(75,75,75)"];
       })
+      setKeypadColour((prev) => ({
+        ...prev,
+        [temp3]: "rgb(75,75,75)"
+      }));
     }
-
-    // revert changes made to objs if no WIN - actualNumbersObj
-    
-    
-
   } // end of validateGuess
+
   const handleInput1 = (event) => {
     // allow player to input only 1 integer
     setInput1(Number(event.target.value.slice(0, limit)));
@@ -220,34 +266,36 @@ export const DisplayGrid = () => {
   } // end of handleSubmit
 
   // validate win condition
-  const checkWin = () => {
-    // validate lose - attemptNum >= 8
-    if (attemptNum >= 8) {
-      return (
-        <>
-        <div className='message'>
-        <h3>YOU LOSE</h3>
-        <h3>The number is: {actualNumbersArr}</h3>
-        <button onClick={resetGame}>RESET</button>
-        </div>
-        </>
-      )
-    }
+  // const checkWin = () => {
+  //   // validate lose - attemptNum >= 8
+  //   if (attemptNum >= 8) {
+  //     setShowEndGame(true);
+  //     // return (
+  //     //   <>
+  //     //   <div className='message'>
+  //     //   <h3>YOU LOSE</h3>
+  //     //   <h3>The number is: {actualNumbersArr}</h3>
+  //     //   <button onClick={resetGame}>RESET</button>
+  //     //   </div>
+  //     //   </>
+  //     // )
+  //   }
 
-    // validate win
-    if (numberOfCorrect[1] === true && numberOfCorrect[2] === true && numberOfCorrect[3] === true) {
-      console.log("win valid");
-      return (
-        <>
-        <div className='message'>
-        <h3>YOU WIN</h3>
-        <h3>The number is: {actualNumbersArr}</h3>
-        <button onClick={resetGame}>RESET</button>
-        </div>
-        </>
-    )
-    }
-  }
+  //   // validate win
+  //   if (numberOfCorrect[1] === true && numberOfCorrect[2] === true && numberOfCorrect[3] === true) {
+  //     //  setShowEndGame(true);
+  //     setTimeout(setShowEndGame(true), 1500);
+  //     // return (
+  //     //   <>
+  //     //   <div className='message'>
+  //     //   <h3>YOU WIN</h3>
+  //     //   <h3>The number is: {actualNumbersArr}</h3>
+  //     //   <button onClick={resetGame}>RESET</button>
+  //     //   </div>
+  //     //   </>
+  //     // )
+  //   }
+  // }
 
   const resetGame = () => {
     // numArr = generateNumbersArr();
@@ -284,8 +332,7 @@ export const DisplayGrid = () => {
   return (
     <>
     <div>
-      {actualNumbersArr}
-      {checkWin()}
+      {/* {actualNumbersArr} */}
       <form onSubmit={handleSubmit}> 
         <input type="number" id="number" min="0" max="9" 
         style={{backgroundColor: guess1Colour[0]}}
@@ -448,7 +495,7 @@ export const DisplayGrid = () => {
         <div className='space'><input type="Submit" className="submit-button"></input></div>
       </form>
     </div>
-    <div>
+    {/* <div>
       <form onSubmit={handleSubmit}>
         <input type="number" id="number" min="0" max="9" 
         style={{backgroundColor: guess1Colour[7]}}
@@ -470,8 +517,22 @@ export const DisplayGrid = () => {
         
         <div className='space'><input type="Submit" className="submit-button"></input></div>
       </form>
-      
-    </div>
+      </div> */}
+      {showEndGame && <EndGame isWin={isWin} solution={actualNum}/>}
+      <br />
+      <div className = "keypad">
+      <div style={{backgroundColor: keypadColour[1]}}>1</div>
+      <div style={{backgroundColor: keypadColour[2]}}>2</div>
+      <div style={{backgroundColor: keypadColour[3]}}>3</div>
+      <div style={{backgroundColor: keypadColour[4]}}>4</div>
+      <div style={{backgroundColor: keypadColour[5]}}>5</div>
+      <div style={{backgroundColor: keypadColour[6]}}>6</div>
+      <div style={{backgroundColor: keypadColour[7]}}>7</div>
+      <div style={{backgroundColor: keypadColour[8]}}>8</div>
+      <div style={{backgroundColor: keypadColour[9]}}>9</div>
+      <div style={{backgroundColor: keypadColour[0]}}>0</div>
+      </div>
+    
    
     </>
   )
