@@ -25,14 +25,9 @@ let numObj = generateNumbersObj(numArr);
 
 const limit = 1; // no. of integers allowed in each box
 
-export const DisplayGrid = () => {
+export const DisplayGrid = (props) => {
   const [actualNumbersArr, setActualNumbersArr] = useState(numArr);
   const [actualNumbersObj, setActualNumbersObj] = useState(numObj);
-
-  
-
-  // console.log(actualNumbersArr);
-  // console.log(actualNumbersObj);
 
   const [attemptNum, setAttemptNum] = useState(0);
 
@@ -221,11 +216,14 @@ export const DisplayGrid = () => {
   const handleInput1 = (event) => {
     // allow player to input only 1 integer
     setInput1(Number(event.target.value.slice(0, limit)));
+    // document.getElementById("number1").blur();
+    document.getElementById("number2").focus();
   }
 
   const handleInput2 = (event) => {
     // allow player to input only 1 integer
     setInput2(Number(event.target.value.slice(0, limit)));
+    document.getElementById("number3").focus();
   }
 
   const handleInput3 = (event) => {
@@ -257,45 +255,15 @@ export const DisplayGrid = () => {
 
     // increment attemptNum by 1, move on to next row
     setAttemptNum((prevAttemptNum) => prevAttemptNum + 1);
-
+    document.getElementById("number2").focus();
     // reset input
     setInput1("");
     setInput2("");
     setInput3("");
     setCheckInput(true);
+    
   } // end of handleSubmit
 
-  // validate win condition
-  // const checkWin = () => {
-  //   // validate lose - attemptNum >= 8
-  //   if (attemptNum >= 8) {
-  //     setShowEndGame(true);
-  //     // return (
-  //     //   <>
-  //     //   <div className='message'>
-  //     //   <h3>YOU LOSE</h3>
-  //     //   <h3>The number is: {actualNumbersArr}</h3>
-  //     //   <button onClick={resetGame}>RESET</button>
-  //     //   </div>
-  //     //   </>
-  //     // )
-  //   }
-
-  //   // validate win
-  //   if (numberOfCorrect[1] === true && numberOfCorrect[2] === true && numberOfCorrect[3] === true) {
-  //     //  setShowEndGame(true);
-  //     setTimeout(setShowEndGame(true), 1500);
-  //     // return (
-  //     //   <>
-  //     //   <div className='message'>
-  //     //   <h3>YOU WIN</h3>
-  //     //   <h3>The number is: {actualNumbersArr}</h3>
-  //     //   <button onClick={resetGame}>RESET</button>
-  //     //   </div>
-  //     //   </>
-  //     // )
-  //   }
-  // }
 
   const resetGame = () => {
     // numArr = generateNumbersArr();
@@ -316,37 +284,31 @@ export const DisplayGrid = () => {
     //   2: false,
     //   3: false
     // });
-    window.location.reload();
-    return false;
+    // window.location.reload();
+    // return false;
   }
-
-  // const clearFields = () => {
-  //   setInput1("");
-  //   setInput2("");
-  //   setInput3("");
-  //   setGuess1([]);
-  //   setGuess2([]);
-  //   setGuess3([]);
-  // }
 
   return (
     <>
     <div>
       {/* {actualNumbersArr} */}
       <form onSubmit={handleSubmit}> 
-        <input type="number" id="number" min="0" max="9" 
+        <input type="number" id="number1" min="0" max="9" 
         style={{backgroundColor: guess1Colour[0]}}
         value={attemptNum===0 ? input1 : guess1[0]} 
         onChange={handleInput1} 
-        disabled={attemptNum===0 ? false : true}/>
+        disabled={attemptNum===0 ? false : true}
+        autoFocus/>
+        
 
-        <input type="number" id="number" min="0" max="9" 
+        <input type="number" id="number2" min="0" max="9" 
         style={{backgroundColor: guess2Colour[0]}}
         value={attemptNum===0 ? input2 : guess2[0]} 
         onChange={handleInput2}
-        disabled={attemptNum===0 ? false : true}/>
+        disabled={attemptNum===0 ? false : true}
+        focus/>
 
-        <input type="number" id="number" min="0" max="9" 
+        <input type="number" id="number3" min="0" max="9" 
         style={{backgroundColor: guess3Colour[0]}}
         value={attemptNum===0 ? input3 : guess3[0]} 
         onChange={handleInput3}
@@ -357,19 +319,19 @@ export const DisplayGrid = () => {
     </div>
     <div>
       <form onSubmit={handleSubmit}>
-        <input type="number" id="number" min="0" max="9" 
+        <input type="number" id="number1" min="0" max="9" 
         style={{backgroundColor: guess1Colour[1]}}
         value={attemptNum===1 ? input1 : guess1[1]} 
         onChange={handleInput1} 
         disabled={attemptNum===1 ? false : true}/>
 
-        <input type="number" id="number" min="0" max="9" 
+        <input type="number" id="number2" min="0" max="9" 
         style={{backgroundColor: guess2Colour[1]}}
         value={attemptNum===1 ? input2 : guess2[1]} 
         onChange={handleInput2}
         disabled={attemptNum===1 ? false : true}/>
 
-        <input type="number" id="number" min="0" max="9" 
+        <input type="number" id="number3" min="0" max="9" 
         style={{backgroundColor: guess3Colour[1]}}
         value={attemptNum===1 ? input3 : guess3[1]} 
         onChange={handleInput3}
@@ -382,19 +344,19 @@ export const DisplayGrid = () => {
     </div>
     <div>
       <form onSubmit={handleSubmit}>
-        <input type="number" id="number" min="0" max="9" 
+        <input type="number" id="number1" min="0" max="9" 
         style={{backgroundColor: guess1Colour[2]}}
         value={attemptNum===2 ? input1 : guess1[2]} 
         onChange={handleInput1} 
         disabled={attemptNum===2 ? false : true}/>
 
-        <input type="number" id="number" min="0" max="9" 
+        <input type="number" id="number2" min="0" max="9" 
         style={{backgroundColor: guess2Colour[2]}}
         value={attemptNum===2 ? input2 : guess2[2]} 
         onChange={handleInput2}
         disabled={attemptNum===2 ? false : true}/>
 
-        <input type="number" id="number" min="0" max="9" 
+        <input type="number" id="number3" min="0" max="9" 
         style={{backgroundColor: guess3Colour[2]}}
         value={attemptNum===2 ? input3 : guess3[2]} 
         onChange={handleInput3}
@@ -405,19 +367,19 @@ export const DisplayGrid = () => {
     </div>
     <div>
       <form onSubmit={handleSubmit}>
-        <input type="number" id="number" min="0" max="9" 
+        <input type="number" id="number1" min="0" max="9" 
         style={{backgroundColor: guess1Colour[3]}}
         value={attemptNum===3 ? input1 : guess1[3]} 
         onChange={handleInput1} 
         disabled={attemptNum===3 ? false : true}/>
 
-        <input type="number" id="number" min="0" max="9" 
+        <input type="number" id="number2" min="0" max="9" 
         style={{backgroundColor: guess2Colour[3]}}
         value={attemptNum===3 ? input2 : guess2[3]} 
         onChange={handleInput2}
         disabled={attemptNum===3 ? false : true}/>
 
-        <input type="number" id="number" min="0" max="9" 
+        <input type="number" id="number3" min="0" max="9" 
         style={{backgroundColor: guess3Colour[3]}}
         value={attemptNum===3 ? input3 : guess3[3]} 
         onChange={handleInput3}
@@ -428,19 +390,19 @@ export const DisplayGrid = () => {
     </div>
     <div>
       <form onSubmit={handleSubmit}>
-        <input type="number" id="number" min="0" max="9" 
+        <input type="number" id="number1" min="0" max="9" 
         style={{backgroundColor: guess1Colour[4]}}
         value={attemptNum===4 ? input1 : guess1[4]} 
         onChange={handleInput1} 
         disabled={attemptNum===4 ? false : true}/>
 
-        <input type="number" id="number" min="0" max="9" 
+        <input type="number" id="number2" min="0" max="9" 
         style={{backgroundColor: guess2Colour[4]}}
         value={attemptNum===4 ? input2 : guess2[4]} 
         onChange={handleInput2}
         disabled={attemptNum===4 ? false : true}/>
 
-        <input type="number" id="number" min="0" max="9" 
+        <input type="number" id="number3" min="0" max="9" 
         style={{backgroundColor: guess3Colour[4]}}
         value={attemptNum===4 ? input3 : guess3[4]} 
         onChange={handleInput3}
@@ -451,19 +413,19 @@ export const DisplayGrid = () => {
     </div>
     <div>
       <form onSubmit={handleSubmit}>
-        <input type="number" id="number" min="0" max="9" 
+        <input type="number" id="number1" min="0" max="9" 
         style={{backgroundColor: guess1Colour[5]}}
         value={attemptNum===5 ? input1 : guess1[5]} 
         onChange={handleInput1} 
         disabled={attemptNum===5 ? false : true}/>
 
-        <input type="number" id="number" min="0" max="9" 
+        <input type="number" id="number2" min="0" max="9" 
         style={{backgroundColor: guess2Colour[5]}}
         value={attemptNum===5 ? input2 : guess2[5]} 
         onChange={handleInput2}
         disabled={attemptNum===5 ? false : true}/>
 
-        <input type="number" id="number" min="0" max="9" 
+        <input type="number" id="number3" min="0" max="9" 
         style={{backgroundColor: guess3Colour[5]}}
         value={attemptNum===5 ? input3 : guess3[5]} 
         onChange={handleInput3}
@@ -474,19 +436,19 @@ export const DisplayGrid = () => {
     </div>
     <div>
       <form onSubmit={handleSubmit}>
-        <input type="number" id="number" min="0" max="9" 
+        <input type="number" id="number1" min="0" max="9" 
         style={{backgroundColor: guess1Colour[6]}}
         value={attemptNum===6 ? input1 : guess1[6]} 
         onChange={handleInput1} 
         disabled={attemptNum===6 ? false : true}/>
 
-        <input type="number" id="number" min="0" max="9" 
+        <input type="number" id="number2" min="0" max="9" 
         style={{backgroundColor: guess2Colour[6]}}
         value={attemptNum===6 ? input2 : guess2[6]} 
         onChange={handleInput2}
         disabled={attemptNum===6 ? false : true}/>
 
-        <input type="number" id="number" min="0" max="9" 
+        <input type="number" id="number3" min="0" max="9" 
         style={{backgroundColor: guess3Colour[6]}}
         value={attemptNum===6 ? input3 : guess3[6]} 
         onChange={handleInput3}
